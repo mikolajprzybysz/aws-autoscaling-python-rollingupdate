@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+import argparse
+import boto3
+from src.asg import RollingAsg
+
+parser = argparse.ArgumentParser(description='Replaces instances in asg to new image')
+parser.add_argument('OLD_AMI_ID')
+parser.add_argument('NEW_AMI_ID')
+args = parser.parse_args()
+
+aws = boto3.client('autoscaling')
+RollingAsg(args.NEW_AMI_ID, aws).update()
